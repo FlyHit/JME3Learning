@@ -14,7 +14,7 @@ public class HelloJME3 extends SimpleApplication {
 
     public static void main(String[] args) {
         HelloJME3 app = new HelloJME3();
-        app.start(); // 启动游戏
+        app.start(); // 启动游戏11
     }
 
     @Override
