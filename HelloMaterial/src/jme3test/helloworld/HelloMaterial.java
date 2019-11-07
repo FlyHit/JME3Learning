@@ -41,9 +41,7 @@ public class HelloMaterial extends SimpleApplication {
         rootNode.attachChild(cube1Geo);
 
         /**
-         * 使用半透明/透明的纹理：
-         * 1.含alpha通道的纹理
-         * 2.纹理的blend mode为：BlendMode.Alpha
+         * 使用半透明/透明的纹理： 1.含alpha通道的纹理 2.纹理的blend mode为：BlendMode.Alpha
          * 3.将Geometry放入“Bucket.Transparent“ render bucket
          * 绘制透明/半透明物体时要按如下顺序来，不透明物体则可以任意顺序绘制
          */
@@ -54,7 +52,7 @@ public class HelloMaterial extends SimpleApplication {
         cube2Mat.setTexture("ColorMap",
                 assetManager.loadTexture("Textures/ColoredTex/Monkey.png"));  // Monkey.png with an alpha channel
 //        混合模式（blend mode）开启后，输入的像素将和已经在色彩缓冲池的像素混合
-        cube2Mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);  
+        cube2Mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
 //        setQueueBucket：决定该spatial在渲染的哪个阶段被渲染 
 //        Bucket：渲染队列，指定渲染的时候spatial将会被放入哪个bucket
         cube2Geo.setQueueBucket(Bucket.Transparent);  // Bucket.Transparent：for object with transparency
@@ -70,11 +68,13 @@ public class HelloMaterial extends SimpleApplication {
         TangentBinormalGenerator.generate(sphereMesh);           // 为mesh生成TangentBinormals以便使用环境光层（NormalMap layer）
         Material sphereMat = new Material(assetManager,
                 "Common/MatDefs/Light/Lighting.j3md");  // 发光材料基于Lighting.j3md
+        //为漫反射层（DiffuseMap layer）设置石头纹理，没有该层石头没有颜色
         sphereMat.setTexture("DiffuseMap",
-                assetManager.loadTexture("Textures/Terrain/Pond/Pond.jpg"));  //为漫反射层（DiffuseMap layer）设置石头纹理
+                assetManager.loadTexture("Textures/Terrain/Pond/Pond.jpg"));
+        // 为NormalMap设置纹理，该层含凹凸的效果,没有该层整个球很光滑
         sphereMat.setTexture("NormalMap",
-                assetManager.loadTexture("Textures/Terrain/Pond/Pond_normal.png"));  // 为NormalMap设置纹理，该层含凹凸的效果
-        sphereMat.setBoolean("UseMaterialColors", true);  
+                assetManager.loadTexture("Textures/Terrain/Pond/Pond_normal.png"));
+        sphereMat.setBoolean("UseMaterialColors", true);
         sphereMat.setColor("Diffuse", ColorRGBA.White);  // 漫反射为白色，DiffUse、Specular都是定义好的颜色名
         sphereMat.setColor("Specular", ColorRGBA.Red); // 镜面反射为白色(类似光泽），设为黑色则物体不发光
         sphereMat.setFloat("Shininess", 64f);  // [0,128]，值越小越模糊看起来越粗糙，设为0不能让物体不发光
