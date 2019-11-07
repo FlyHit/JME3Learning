@@ -65,20 +65,9 @@ public class HelloMaterial extends SimpleApplication {
         Sphere sphereMesh = new Sphere(32, 32, 2f);
         Geometry sphereGeo = new Geometry("Shiny rock", sphereMesh);
         sphereMesh.setTextureMode(Sphere.TextureMode.Projected); // 改变TexttureMode，使平面的纹理更好的在球体中显示
-        TangentBinormalGenerator.generate(sphereMesh);           // 为mesh生成TangentBinormals以便使用环境光层（NormalMap layer）
-        Material sphereMat = new Material(assetManager,
-                "Common/MatDefs/Light/Lighting.j3md");  // 发光材料基于Lighting.j3md
-        //为漫反射层（DiffuseMap layer）设置石头纹理，没有该层石头没有颜色
-        sphereMat.setTexture("DiffuseMap",
-                assetManager.loadTexture("Textures/Terrain/Pond/Pond.jpg"));
-        // 为NormalMap设置纹理，该层含凹凸的效果,没有该层整个球很光滑
-        sphereMat.setTexture("NormalMap",
-                assetManager.loadTexture("Textures/Terrain/Pond/Pond_normal.png"));
-        sphereMat.setBoolean("UseMaterialColors", true);
-        sphereMat.setColor("Diffuse", ColorRGBA.White);  // 漫反射为白色，DiffUse、Specular都是定义好的颜色名
-        sphereMat.setColor("Specular", ColorRGBA.Red); // 镜面反射为白色(类似光泽），设为黑色则物体不发光
-        sphereMat.setFloat("Shininess", 64f);  // [0,128]，值越小越模糊看起来越粗糙，设为0不能让物体不发光
-        sphereGeo.setMaterial(sphereMat);
+        TangentBinormalGenerator.generate(sphereMesh);  // 为mesh生成TangentBinormals以便使用环境光层（NormalMap layer）
+        sphereGeo.setMaterial((Material) assetManager.loadMaterial(
+                "Materials/MyCustomMaterial.j3m"));  // 使用自定义材料文件MyCustomMaterial.j3m
         sphereGeo.setLocalTranslation(0, 2, -2); // 稍微移动一下
         sphereGeo.rotate(1.6f, 0, 0);          // 旋转一下
         rootNode.attachChild(sphereGeo);
